@@ -7,6 +7,11 @@
 #include <cmath>
 #include "EVector3.h"
 
+// Program configuration
+const int MAX_POINTS = 1000;
+const float MIN_PT_RANGE = -1000.0f;
+const float MAX_PT_RANGE = 1000.0f;
+
 /// <summary>
 /// Generates the given number of random 3D points.
 /// </summary>
@@ -37,16 +42,22 @@ float randomFloat(float min, float max);
 
 int main()
 {
+	// Start recording time
 	const auto start{ std::chrono::steady_clock::now() };
-	std::srand(std::time({}));
 
-	const int totalPoints = std::rand() % 1001;
+	// Determine number of points to generate
+	std::srand(std::time({}));
+	const int totalPoints = std::rand() % (MAX_POINTS + 1);
 	std::cout << "Total Points: " << totalPoints << std::endl;
 
+	// Generate points and calculate the square distances between every point pair
 	std::vector<EVector3> points{ generateRandomPoints(totalPoints) };
 	std::vector<float> squareDistances{ calculateSquareDistances(points) };
+
+	// Sort and print the 10 shortest distances
 	printShortestDistances(squareDistances);
 
+	// Stop recording time and print time elapsed
 	const auto finish{ std::chrono::steady_clock::now() };
 	const std::chrono::duration<double> elapsedSeconds{ finish - start };
 	std::cout << "Total Time Elapsed: " << elapsedSeconds.count() << std::endl;
@@ -57,10 +68,16 @@ int main()
 std::vector<EVector3> generateRandomPoints(int tPoints)
 {
 	const auto start{ std::chrono::steady_clock::now() };
+
+	// Create random 3D points
 	std::vector<EVector3> points;
 
 	for (int i = 0; i < tPoints; i++)
-		points.push_back(EVector3(randomFloat(-1000.0f, 1000.0f), randomFloat(-1000.0f, 1000.0f), randomFloat(-1000.0f, 1000.0f)));
+		points.push_back(EVector3(
+			randomFloat(MIN_PT_RANGE, MAX_PT_RANGE), 
+			randomFloat(MIN_PT_RANGE, MAX_PT_RANGE),
+			randomFloat(MIN_PT_RANGE, MAX_PT_RANGE)
+		));
 
 	const auto finish{ std::chrono::steady_clock::now() };
 	const std::chrono::duration<double> elapsedSeconds{ finish - start };
@@ -71,8 +88,8 @@ std::vector<EVector3> generateRandomPoints(int tPoints)
 std::vector<float> calculateSquareDistances(std::vector<EVector3>& points)
 {
 	const auto start{ std::chrono::steady_clock::now() };
-	std::vector<float> squareDistances;
 
+	std::vector<float> squareDistances;
 	for (int i = 0; i < points.size(); i++)
 	{
 		for (int j = 0; j < i; j++)
