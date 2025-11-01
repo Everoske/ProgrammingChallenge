@@ -104,7 +104,7 @@ std::vector<float> calculateSquareDistances(std::vector<EVector3>& points)
 	{
 		for (int j = i + 1; j < points.size(); j++)
 		{
-			squareDistances.push_back((points[i] - points[j]).squareMagnitude());
+			squareDistances.push_back((points.at(i) - points.at(j)).squareMagnitude());
 		}
 	}
 
