@@ -22,7 +22,7 @@ std::chrono::duration<double> printDistancesTimeElapsed;
 /// </summary>
 /// <param name="tPoints">Number of points to generate.</param>
 /// <returns>Vector containing 3D points.</returns>
-std::vector<EVector3> generateRandomPoints(int tPoints);
+std::vector<EVector3> generateRandomPoints(int totalPoints);
 
 /// <summary>
 /// Calculates the square distance of all 3D point pairs in the given vector.
@@ -35,7 +35,7 @@ std::vector<float> calculateSquareDistances(std::vector<EVector3>& points);
 /// Sorts a list of squared distances and prints the 10 shortest distances.
 /// </summary>
 /// <param name="sDistances">Squared distances.</param>
-void printShortestDistances(std::vector<float>& sDistances);
+void printShortestDistances(std::vector<float>& squareDistances);
 
 /// <summary>
 /// Returns a random float within the specified range.
@@ -73,14 +73,14 @@ int main()
 	return 0;
 }
 
-std::vector<EVector3> generateRandomPoints(int tPoints)
+std::vector<EVector3> generateRandomPoints(int totalPoints)
 {
 	const auto start{ std::chrono::steady_clock::now() };
 
 	// Create random 3D points
 	std::vector<EVector3> points;
 
-	for (int i = 0; i < tPoints; i++)
+	for (int i = 0; i < totalPoints; i++)
 		points.push_back(EVector3(
 			randomFloat(MIN_PT_RANGE, MAX_PT_RANGE), 
 			randomFloat(MIN_PT_RANGE, MAX_PT_RANGE),
@@ -114,14 +114,14 @@ std::vector<float> calculateSquareDistances(std::vector<EVector3>& points)
 	return squareDistances;
 }
 
-void printShortestDistances(std::vector<float>& sDistances)
+void printShortestDistances(std::vector<float>& squareDistances)
 {
 	const auto start{ std::chrono::steady_clock::now() };
 
-	std::sort(sDistances.begin(), sDistances.end());
+	std::sort(squareDistances.begin(), squareDistances.end());
 
 	for (int i = 0; i < 10; i++)
-		std::cout << std::sqrt(sDistances.at(i)) << std::endl;
+		std::cout << std::sqrt(squareDistances.at(i)) << std::endl;
 
 	const auto finish{ std::chrono::steady_clock::now() };
 	printDistancesTimeElapsed = finish - start;
