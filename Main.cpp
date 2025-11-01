@@ -25,23 +25,8 @@ int main()
 	std::cout << "Total Points: " << totalPoints << std::endl;
 	//algorithmSortWithSquareMag(totalPoints);
 	//algorithmSortWithMag(totalPoints);
-
-	EBinarySearchTree bst{};
-	bst.insert(9);
-	bst.insert(1);
-	bst.insert(4);
-	bst.insert(7);
-	bst.insert(10);
-	bst.insert(2);
-	bst.insert(6);
-	bst.insert(3);
-	bst.insert(2);
-
-	std::vector<float> sortedVec = bst.toSortedVector();
-
-	for (int i = 0; i < sortedVec.size(); i++)
-		std::cout << sortedVec.at(i) << std::endl;
-
+	//binaryTreeWithSquareMag(totalPoints);
+	binaryTreeWithMag(totalPoints);
 
 	const auto finish{ std::chrono::steady_clock::now() };
 	const std::chrono::duration<double> elapsedSeconds{ finish - start };
@@ -74,7 +59,7 @@ void algorithmSortWithSquareMag(int tPoints)
 
 	std::sort(squareDistances.begin(), squareDistances.end());
 	for (int i = 0; i < 10; i++)
-		std::cout << std::sqrt(squareDistances[i]) << std::endl;
+		std::cout << std::sqrt(squareDistances.at(i)) << std::endl;
 }
 
 void algorithmSortWithMag(int tPoints)
@@ -101,16 +86,61 @@ void algorithmSortWithMag(int tPoints)
 
 	std::sort(distances.begin(), distances.end());
 	for (int i = 0; i < 10; i++)
-		std::cout << distances[i] << std::endl;
+		std::cout << distances.at(i) << std::endl;
 }
 
 void binaryTreeWithSquareMag(int tPoints)
 {
+	std::vector<EVector3> points;
+
+	for (int i = 0; i < tPoints; i++)
+		points.push_back(EVector3((float)std::rand(), (float)std::rand(), (float)std::rand()));
+
+	EBinarySearchTree sDistancesTree{};
+
+	for (int i = 0; i < tPoints; i++)
+	{
+		for (int j = 0; j < i; j++)
+		{
+			sDistancesTree.insert((points[i] - points[j]).squareMagnitude());
+		}
+
+		for (int j = i + 1; j < tPoints; j++)
+		{
+			sDistancesTree.insert((points[i] - points[j]).squareMagnitude());
+		}
+	}
+
+	std::vector<float> sortedSDistances = sDistancesTree.toSortedVector();
+	for (int i = 0; i < 10; i++)
+		std::cout << std::sqrt(sortedSDistances.at(i)) << std::endl;
 
 }
 
 void binaryTreeWithMag(int tPoints)
 {
+	std::vector<EVector3> points;
 
+	for (int i = 0; i < tPoints; i++)
+		points.push_back(EVector3((float)std::rand(), (float)std::rand(), (float)std::rand()));
+
+	EBinarySearchTree distancesTree{};
+
+	for (int i = 0; i < tPoints; i++)
+	{
+		for (int j = 0; j < i; j++)
+		{
+			distancesTree.insert((points[i] - points[j]).magnitude());
+		}
+
+		for (int j = i + 1; j < tPoints; j++)
+		{
+			distancesTree.insert((points[i] - points[j]).magnitude());
+		}
+	}
+
+	std::vector<float> sortedDistances = distancesTree.toSortedVector();
+	for (int i = 0; i < 10; i++)
+		std::cout << std::sqrt(sortedDistances.at(i)) << std::endl;
 }
 
