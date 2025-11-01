@@ -12,6 +12,7 @@ const int MAX_POINTS = 1000;
 const float MIN_PT_RANGE = -1000.0f;
 const float MAX_PT_RANGE = 1000.0f;
 
+// Function performance results
 std::chrono::duration<double> generatePointsTimeElapsed;
 std::chrono::duration<double> calculateSqrDistTimeElapsed;
 std::chrono::duration<double> printDistancesTimeElapsed;
@@ -54,11 +55,9 @@ int main()
 	const int totalPoints = std::rand() % (MAX_POINTS + 1);
 	std::cout << "Total Points: " << totalPoints << "\n" << std::endl;
 
-	// Generate points and calculate the square distances between every point pair
+	// Generate points, calculate square distances, and print 10 shortest distances
 	std::vector<EVector3> points{ generateRandomPoints(totalPoints) };
 	std::vector<float> squareDistances{ calculateSquareDistances(points) };
-
-	// Sort and print the 10 shortest distances
 	printShortestDistances(squareDistances);
 
 	// Stop recording time and print time elapsed
@@ -99,13 +98,10 @@ std::vector<float> calculateSquareDistances(std::vector<EVector3>& points)
 	const auto start{ std::chrono::steady_clock::now() };
 
 	std::vector<float> squareDistances;
+	
+	// For each 3D point, evaluate the square distance for every point in front of it
 	for (int i = 0; i < points.size(); i++)
 	{
-		for (int j = 0; j < i; j++)
-		{
-			squareDistances.push_back((points[i] - points[j]).squareMagnitude());
-		}
-
 		for (int j = i + 1; j < points.size(); j++)
 		{
 			squareDistances.push_back((points[i] - points[j]).squareMagnitude());
@@ -133,7 +129,7 @@ void printShortestDistances(std::vector<float>& sDistances)
 
 float randomFloat(float min, float max)
 {
-	return min + (max - min) * std::rand() / (RAND_MAX + 1.0);
+	return min + (max - min) * (float) (std::rand() / (RAND_MAX + 1.0));
 }
 
 
