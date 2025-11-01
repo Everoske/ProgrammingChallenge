@@ -21,6 +21,9 @@
     <ClCompile Include="EVector3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EBinarySearchTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EVector3.h">

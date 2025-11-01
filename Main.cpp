@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <cmath>
 #include "EVector3.h"
+#include "EBinarySearchTree.h"
 
 
 void algorithmSortWithSquareMag(int tPoints);
@@ -24,6 +25,23 @@ int main()
 	std::cout << "Total Points: " << totalPoints << std::endl;
 	//algorithmSortWithSquareMag(totalPoints);
 	//algorithmSortWithMag(totalPoints);
+
+	EBinarySearchTree bst{};
+	bst.insert(9);
+	bst.insert(1);
+	bst.insert(4);
+	bst.insert(7);
+	bst.insert(10);
+	bst.insert(2);
+	bst.insert(6);
+	bst.insert(3);
+	bst.insert(2);
+
+	std::vector<float> sortedVec = bst.toSortedVector();
+
+	for (int i = 0; i < sortedVec.size(); i++)
+		std::cout << sortedVec.at(i) << std::endl;
+
 
 	const auto finish{ std::chrono::steady_clock::now() };
 	const std::chrono::duration<double> elapsedSeconds{ finish - start };
