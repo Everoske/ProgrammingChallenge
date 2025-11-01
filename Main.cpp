@@ -12,6 +12,10 @@ const int MAX_POINTS = 1000;
 const float MIN_PT_RANGE = -1000.0f;
 const float MAX_PT_RANGE = 1000.0f;
 
+std::chrono::duration<double> generatePointsTimeElapsed;
+std::chrono::duration<double> calculateSqrDistTimeElapsed;
+std::chrono::duration<double> printDistancesTimeElapsed;
+
 /// <summary>
 /// Generates the given number of random 3D points.
 /// </summary>
@@ -48,7 +52,7 @@ int main()
 	// Determine number of points to generate
 	std::srand(std::time({}));
 	const int totalPoints = std::rand() % (MAX_POINTS + 1);
-	std::cout << "Total Points: " << totalPoints << std::endl;
+	std::cout << "Total Points: " << totalPoints << "\n" << std::endl;
 
 	// Generate points and calculate the square distances between every point pair
 	std::vector<EVector3> points{ generateRandomPoints(totalPoints) };
@@ -60,7 +64,12 @@ int main()
 	// Stop recording time and print time elapsed
 	const auto finish{ std::chrono::steady_clock::now() };
 	const std::chrono::duration<double> elapsedSeconds{ finish - start };
-	std::cout << "Total Time Elapsed: " << elapsedSeconds.count() << std::endl;
+
+	std::cout << "\nGenerate Random Points Time Elapsed: " << generatePointsTimeElapsed.count() << std::endl;
+	std::cout << "Calculate Square Distances Time Elapsed: " << calculateSqrDistTimeElapsed.count() << std::endl;
+	std::cout << "Print Shortest Distances Time Elapsed: " << printDistancesTimeElapsed.count() << std::endl;
+
+	std::cout << "\nTotal Time Elapsed: " << elapsedSeconds.count() << std::endl;
 
 	return 0;
 }
@@ -80,8 +89,8 @@ std::vector<EVector3> generateRandomPoints(int tPoints)
 		));
 
 	const auto finish{ std::chrono::steady_clock::now() };
-	const std::chrono::duration<double> elapsedSeconds{ finish - start };
-	std::cout << "Generate Random Points Time Elapsed: " << elapsedSeconds.count() << std::endl;
+	generatePointsTimeElapsed = finish - start;
+	
 	return points;
 }
 
@@ -104,8 +113,7 @@ std::vector<float> calculateSquareDistances(std::vector<EVector3>& points)
 	}
 
 	const auto finish{ std::chrono::steady_clock::now() };
-	const std::chrono::duration<double> elapsedSeconds{ finish - start };
-	std::cout << "Calculate Square Distances Time Elapsed: " << elapsedSeconds.count() << std::endl;
+	calculateSqrDistTimeElapsed = finish - start;
 
 	return squareDistances;
 }
@@ -120,8 +128,7 @@ void printShortestDistances(std::vector<float>& sDistances)
 		std::cout << std::sqrt(sDistances.at(i)) << std::endl;
 
 	const auto finish{ std::chrono::steady_clock::now() };
-	const std::chrono::duration<double> elapsedSeconds{ finish - start };
-	std::cout << "Print Shortest Distances Time Elapsed: " << elapsedSeconds.count() << std::endl;
+	printDistancesTimeElapsed = finish - start;
 }
 
 float randomFloat(float min, float max)
