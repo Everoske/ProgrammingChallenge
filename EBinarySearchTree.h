@@ -1,0 +1,6 @@
+#ifndef EBINARYSEARCHTREE_H
+#define EBINARYSEARCHTREE_H
+
+
+
+#endif
