@@ -8,13 +8,9 @@
 #include <algorithm>
 #include <cmath>
 #include "EVector3.h"
-#include "EBinarySearchTree.h"
-
 
 void algorithmSortWithSquareMag(int tPoints);
 void algorithmSortWithMag(int tPoints);
-void binaryTreeWithSquareMag(int tPoints);
-void binaryTreeWithMag(int tPoints);
 
 int main()
 {
@@ -25,8 +21,6 @@ int main()
 	std::cout << "Total Points: " << totalPoints << std::endl;
 	//algorithmSortWithSquareMag(totalPoints);
 	//algorithmSortWithMag(totalPoints);
-	//binaryTreeWithSquareMag(totalPoints);
-	binaryTreeWithMag(totalPoints);
 
 	const auto finish{ std::chrono::steady_clock::now() };
 	const std::chrono::duration<double> elapsedSeconds{ finish - start };
@@ -88,59 +82,3 @@ void algorithmSortWithMag(int tPoints)
 	for (int i = 0; i < 10; i++)
 		std::cout << distances.at(i) << std::endl;
 }
-
-void binaryTreeWithSquareMag(int tPoints)
-{
-	std::vector<EVector3> points;
-
-	for (int i = 0; i < tPoints; i++)
-		points.push_back(EVector3((float)std::rand(), (float)std::rand(), (float)std::rand()));
-
-	EBinarySearchTree sDistancesTree{};
-
-	for (int i = 0; i < tPoints; i++)
-	{
-		for (int j = 0; j < i; j++)
-		{
-			sDistancesTree.insert((points[i] - points[j]).squareMagnitude());
-		}
-
-		for (int j = i + 1; j < tPoints; j++)
-		{
-			sDistancesTree.insert((points[i] - points[j]).squareMagnitude());
-		}
-	}
-
-	std::vector<float> sortedSDistances = sDistancesTree.toSortedVector();
-	for (int i = 0; i < 10; i++)
-		std::cout << std::sqrt(sortedSDistances.at(i)) << std::endl;
-
-}
-
-void binaryTreeWithMag(int tPoints)
-{
-	std::vector<EVector3> points;
-
-	for (int i = 0; i < tPoints; i++)
-		points.push_back(EVector3((float)std::rand(), (float)std::rand(), (float)std::rand()));
-
-	EBinarySearchTree distancesTree{};
-
-	for (int i = 0; i < tPoints; i++)
-	{
-		for (int j = 0; j < i; j++)
-		{
-			distancesTree.insert((points[i] - points[j]).magnitude());
-		}
-
-		for (int j = i + 1; j < tPoints; j++)
-		{
-			distancesTree.insert((points[i] - points[j]).magnitude());
-		}
-	}
-
-	std::vector<float> sortedDistances = distancesTree.toSortedVector();
-	for (int i = 0; i < 10; i++)
-		std::cout << std::sqrt(sortedDistances.at(i)) << std::endl;
-}
-
