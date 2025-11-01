@@ -1,12 +1,12 @@
 #include "EVector3.h"
 #include <cmath>
 
-float EVector3::squareMagnitude()
+float EVector3::squareMagnitude() const
 {
     return x * x + y * y + z * z;
 }
 
-float EVector3::magnitude()
+float EVector3::magnitude() const
 {
     return std::sqrt(squareMagnitude());
 }
