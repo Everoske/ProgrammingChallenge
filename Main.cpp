@@ -35,7 +35,7 @@ std::vector<float> calculateSquareDistances(const std::vector<EVector3>& points)
 /// Sorts a list of squared distances and prints the 10 shortest distances.
 /// </summary>
 /// <param name="sDistances">Squared distances.</param>
-void printShortestDistances(const std::vector<float>& squareDistances);
+void printShortestDistances(std::vector<float>& squareDistances);
 
 /// <summary>
 /// Returns a random float within the specified range.
@@ -113,7 +113,7 @@ std::vector<float> calculateSquareDistances(const std::vector<EVector3>& points)
 	return squareDistances;
 }
 
-void printShortestDistances(const std::vector<float>& squareDistances)
+void printShortestDistances(std::vector<float>& squareDistances)
 {
 	const auto start{ std::chrono::steady_clock::now() };
 
